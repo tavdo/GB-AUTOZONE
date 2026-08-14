@@ -48,5 +48,6 @@ next-env.d.ts
 .agents/
 skills-lock.json
 
-data/
+# Local mock JSON store (root only — do not ignore src/lib/data)
+/data/
 
