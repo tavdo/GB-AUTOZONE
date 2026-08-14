@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { AdminNav } from "@/components/admin/admin-nav";
 import { AuthProvider } from "@/components/providers/auth-provider";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;

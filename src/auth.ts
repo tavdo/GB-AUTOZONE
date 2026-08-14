@@ -18,6 +18,11 @@ declare module "next-auth" {
 }
 
 const authConfig = {
+  // Required on Vercel — fallback avoids build crash if env not set yet
+  secret:
+    process.env.AUTH_SECRET ||
+    process.env.NEXTAUTH_SECRET ||
+    "dev-only-change-me-on-vercel",
   providers: [
     Credentials({
       name: "Credentials",
