@@ -48,6 +48,9 @@ next-env.d.ts
 .agents/
 skills-lock.json
 
+# Local mock JSON store (root only — keep src/lib/data tracked)
+/data/
+
 /prisma/dev.db
 /prisma/dev.db-journal
 
