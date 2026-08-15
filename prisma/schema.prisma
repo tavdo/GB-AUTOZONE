@@ -1,5 +1,5 @@
-// GB Autozone — American cars & parts e-commerce
-// PostgreSQL via Prisma 7 (url lives in prisma.config.ts)
+// GB Autozone — Turso (libSQL / SQLite) via Prisma 7
+// Connection URL lives in prisma.config.ts / env (TURSO_DATABASE_URL)
 
 generator client {
   provider = "prisma-client"
@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
 }
 
 enum UserRole {
@@ -69,10 +69,10 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  orders     Order[]
-  favorites  Favorite[]
-  accounts   Account[]
-  sessions   Session[]
+  orders    Order[]
+  favorites Favorite[]
+  accounts  Account[]
+  sessions  Session[]
 }
 
 model Account {
@@ -117,8 +117,8 @@ model Car {
   year          Int
   vin           String?   @unique
   mileage       Int
-  price         Decimal   @db.Decimal(12, 2)
-  currency      Currency  @default(GEL)
+  price         Float
+  currency      Currency  @default(USD)
   damageType    String?
   auctionSource String?
   auctionLot    String?
@@ -143,12 +143,15 @@ model Part {
   /// i18n: { ka: string, en: string, ru: string }
   name             Json
   category         String
-  compatibleMakes  String[]
-  compatibleModels String[]
-  compatibleYears  Int[]
+  /// string[]
+  compatibleMakes  Json
+  /// string[]
+  compatibleModels Json
+  /// number[]
+  compatibleYears  Json
   oemNumber        String?
-  price            Decimal  @db.Decimal(12, 2)
-  currency         Currency @default(GEL)
+  price            Float
+  currency         Currency @default(USD)
   stockQty         Int      @default(0)
   /// i18n: { ka: string, en: string, ru: string }
   description      Json
@@ -184,9 +187,8 @@ model Order {
   id              String      @id @default(cuid())
   userId          String?
   status          OrderStatus @default(pending)
-  totalAmount     Decimal     @db.Decimal(12, 2)
-  currency        Currency    @default(GEL)
-  /// Shipping + contact payload
+  totalAmount     Float
+  currency        Currency    @default(USD)
   shippingAddress Json?
   customerEmail   String?
   customerPhone   String?
@@ -210,7 +212,7 @@ model OrderItem {
   itemId    String
   title     String
   quantity  Int           @default(1)
-  unitPrice Decimal       @db.Decimal(12, 2)
+  unitPrice Float
 
   order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
@@ -218,27 +220,26 @@ model OrderItem {
 }
 
 model InquiryRequest {
-  id          String        @id @default(cuid())
-  type        InquiryType
-  contactName String
+  id           String        @id @default(cuid())
+  type         InquiryType
+  contactName  String
   contactEmail String
   contactPhone String?
-  message     String
-  /// Optional structured request details (make/model/VIN/lot etc.)
-  details     Json?
-  status      InquiryStatus @default(new)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  message      String
+  details      Json?
+  status       InquiryStatus @default(new)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   @@index([status, createdAt])
 }
 
 model Favorite {
-  id        String   @id @default(cuid())
+  id        String        @id @default(cuid())
   userId    String
   itemType  OrderItemType
   itemId    String
-  createdAt DateTime @default(now())
+  createdAt DateTime      @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -248,7 +249,6 @@ model Favorite {
 model SiteContent {
   id        String   @id @default(cuid())
   key       String   @unique
-  /// i18n JSON content block
   value     Json
   updatedAt DateTime @updatedAt
 }

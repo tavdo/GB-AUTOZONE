@@ -29,13 +29,13 @@ export type AggregateCar = {
 export type CarAvgAggregateOutputType = {
   year: number | null
   mileage: number | null
-  price: runtime.Decimal | null
+  price: number | null
 }
 
 export type CarSumAggregateOutputType = {
   year: number | null
   mileage: number | null
-  price: runtime.Decimal | null
+  price: number | null
 }
 
 export type CarMinAggregateOutputType = {
@@ -45,7 +45,7 @@ export type CarMinAggregateOutputType = {
   year: number | null
   vin: string | null
   mileage: number | null
-  price: runtime.Decimal | null
+  price: number | null
   currency: $Enums.Currency | null
   damageType: string | null
   auctionSource: string | null
@@ -64,7 +64,7 @@ export type CarMaxAggregateOutputType = {
   year: number | null
   vin: string | null
   mileage: number | null
-  price: runtime.Decimal | null
+  price: number | null
   currency: $Enums.Currency | null
   damageType: string | null
   auctionSource: string | null
@@ -262,7 +262,7 @@ export type CarGroupByOutputType = {
   year: number
   vin: string | null
   mileage: number
-  price: runtime.Decimal
+  price: number
   currency: $Enums.Currency
   damageType: string | null
   auctionSource: string | null
@@ -305,7 +305,7 @@ export type CarWhereInput = {
   year?: Prisma.IntFilter<"Car"> | number
   vin?: Prisma.StringNullableFilter<"Car"> | string | null
   mileage?: Prisma.IntFilter<"Car"> | number
-  price?: Prisma.DecimalFilter<"Car"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFilter<"Car"> | number
   currency?: Prisma.EnumCurrencyFilter<"Car"> | $Enums.Currency
   damageType?: Prisma.StringNullableFilter<"Car"> | string | null
   auctionSource?: Prisma.StringNullableFilter<"Car"> | string | null
@@ -350,7 +350,7 @@ export type CarWhereUniqueInput = Prisma.AtLeast<{
   model?: Prisma.StringFilter<"Car"> | string
   year?: Prisma.IntFilter<"Car"> | number
   mileage?: Prisma.IntFilter<"Car"> | number
-  price?: Prisma.DecimalFilter<"Car"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFilter<"Car"> | number
   currency?: Prisma.EnumCurrencyFilter<"Car"> | $Enums.Currency
   damageType?: Prisma.StringNullableFilter<"Car"> | string | null
   auctionSource?: Prisma.StringNullableFilter<"Car"> | string | null
@@ -399,7 +399,7 @@ export type CarScalarWhereWithAggregatesInput = {
   year?: Prisma.IntWithAggregatesFilter<"Car"> | number
   vin?: Prisma.StringNullableWithAggregatesFilter<"Car"> | string | null
   mileage?: Prisma.IntWithAggregatesFilter<"Car"> | number
-  price?: Prisma.DecimalWithAggregatesFilter<"Car"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatWithAggregatesFilter<"Car"> | number
   currency?: Prisma.EnumCurrencyWithAggregatesFilter<"Car"> | $Enums.Currency
   damageType?: Prisma.StringNullableWithAggregatesFilter<"Car"> | string | null
   auctionSource?: Prisma.StringNullableWithAggregatesFilter<"Car"> | string | null
@@ -419,7 +419,7 @@ export type CarCreateInput = {
   year: number
   vin?: string | null
   mileage: number
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   damageType?: string | null
   auctionSource?: string | null
@@ -440,7 +440,7 @@ export type CarUncheckedCreateInput = {
   year: number
   vin?: string | null
   mileage: number
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   damageType?: string | null
   auctionSource?: string | null
@@ -461,7 +461,7 @@ export type CarUpdateInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mileage?: Prisma.IntFieldUpdateOperationsInput | number
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -482,7 +482,7 @@ export type CarUncheckedUpdateInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mileage?: Prisma.IntFieldUpdateOperationsInput | number
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -503,7 +503,7 @@ export type CarCreateManyInput = {
   year: number
   vin?: string | null
   mileage: number
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   damageType?: string | null
   auctionSource?: string | null
@@ -523,7 +523,7 @@ export type CarUpdateManyMutationInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mileage?: Prisma.IntFieldUpdateOperationsInput | number
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -543,7 +543,7 @@ export type CarUncheckedUpdateManyInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mileage?: Prisma.IntFieldUpdateOperationsInput | number
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -639,12 +639,12 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type EnumCurrencyFieldUpdateOperationsInput = {
@@ -682,7 +682,7 @@ export type CarCreateWithoutImagesInput = {
   year: number
   vin?: string | null
   mileage: number
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   damageType?: string | null
   auctionSource?: string | null
@@ -702,7 +702,7 @@ export type CarUncheckedCreateWithoutImagesInput = {
   year: number
   vin?: string | null
   mileage: number
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   damageType?: string | null
   auctionSource?: string | null
@@ -738,7 +738,7 @@ export type CarUpdateWithoutImagesInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mileage?: Prisma.IntFieldUpdateOperationsInput | number
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -758,7 +758,7 @@ export type CarUncheckedUpdateWithoutImagesInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   vin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mileage?: Prisma.IntFieldUpdateOperationsInput | number
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   damageType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auctionSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -904,7 +904,7 @@ export type $CarPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     year: number
     vin: string | null
     mileage: number
-    price: runtime.Decimal
+    price: number
     currency: $Enums.Currency
     damageType: string | null
     auctionSource: string | null
@@ -1348,7 +1348,7 @@ export interface CarFieldRefs {
   readonly year: Prisma.FieldRef<"Car", 'Int'>
   readonly vin: Prisma.FieldRef<"Car", 'String'>
   readonly mileage: Prisma.FieldRef<"Car", 'Int'>
-  readonly price: Prisma.FieldRef<"Car", 'Decimal'>
+  readonly price: Prisma.FieldRef<"Car", 'Float'>
   readonly currency: Prisma.FieldRef<"Car", 'Currency'>
   readonly damageType: Prisma.FieldRef<"Car", 'String'>
   readonly auctionSource: Prisma.FieldRef<"Car", 'String'>
@@ -1593,7 +1593,6 @@ export type CarCreateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * The data used to create many Cars.
    */
   data: Prisma.CarCreateManyInput | Prisma.CarCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**
@@ -1612,7 +1611,6 @@ export type CarCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.
    * The data used to create many Cars.
    */
   data: Prisma.CarCreateManyInput | Prisma.CarCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**

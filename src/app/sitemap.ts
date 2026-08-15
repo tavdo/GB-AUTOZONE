@@ -1,11 +1,10 @@
 import type { MetadataRoute } from "next";
-import { cars } from "@/lib/data/cars";
-import { parts } from "@/lib/data/parts";
+import { listCarsAsync, listPartsAsync } from "@/lib/admin-data";
 import { routing } from "@/i18n/routing";
 
 const site = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPaths = [
     "",
     "/cars",
@@ -15,6 +14,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/shipping-info",
     "/request-quote",
   ];
+
+  const [cars, parts] = await Promise.all([
+    listCarsAsync().catch(() => []),
+    listPartsAsync().catch(() => []),
+  ]);
 
   const entries: MetadataRoute.Sitemap = [];
 

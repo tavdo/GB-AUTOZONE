@@ -1,4 +1,4 @@
-import { listCars, listParts } from "@/lib/admin-data";
+import { listCarsAsync, listPartsAsync } from "@/lib/admin-data";
 import type {
   Car,
   CarFilters,
@@ -27,7 +27,7 @@ function paginate<T>(
 export async function getCars(
   filters: CarFilters = {},
 ): Promise<PaginatedResult<Car>> {
-  let result = [...listCars()];
+  let result = await listCarsAsync();
 
   if (filters.make) {
     const make = filters.make.toLowerCase();
@@ -90,23 +90,26 @@ export async function getCars(
 }
 
 export async function getCarById(id: string): Promise<Car | null> {
-  return listCars().find((c) => c.id === id) ?? null;
+  const { getCarAsync } = await import("@/lib/admin-data");
+  return getCarAsync(id);
 }
 
 export async function getFeaturedCars(limit = 4): Promise<Car[]> {
-  return listCars()
+  const cars = await listCarsAsync();
+  return cars
     .filter((c) => c.featured && c.status === "available")
     .slice(0, limit);
 }
 
 export async function getCarMakes(): Promise<string[]> {
-  return [...new Set(listCars().map((c) => c.make))].sort();
+  const cars = await listCarsAsync();
+  return [...new Set(cars.map((c) => c.make))].sort();
 }
 
 export async function getParts(
   filters: PartFilters = {},
 ): Promise<PaginatedResult<Part>> {
-  let result = [...listParts()];
+  let result = await listPartsAsync();
 
   if (filters.category) {
     result = result.filter((p) => p.category === filters.category);
@@ -159,13 +162,16 @@ export async function getParts(
 }
 
 export async function getPartById(id: string): Promise<Part | null> {
-  return listParts().find((p) => p.id === id) ?? null;
+  const { getPartAsync } = await import("@/lib/admin-data");
+  return getPartAsync(id);
 }
 
 export async function getFeaturedParts(limit = 4): Promise<Part[]> {
-  return listParts().filter((p) => p.featured).slice(0, limit);
+  const parts = await listPartsAsync();
+  return parts.filter((p) => p.featured).slice(0, limit);
 }
 
 export async function getPartMakes(): Promise<string[]> {
-  return [...new Set(listParts().flatMap((p) => p.compatibleMakes))].sort();
+  const parts = await listPartsAsync();
+  return [...new Set(parts.flatMap((p) => p.compatibleMakes))].sort();
 }

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { OrdersTable } from "@/components/admin/orders-table";
-import { listOrders } from "@/lib/admin-data";
+import { listOrdersAsync } from "@/lib/admin-data";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -12,7 +12,7 @@ export default async function AdminOrdersPage({ params }: Props) {
     redirect(`/${locale}/admin/login`);
   }
 
-  const orders = listOrders();
+  const orders = await listOrdersAsync();
 
   return (
     <div>

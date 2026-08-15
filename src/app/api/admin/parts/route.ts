@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/auth";
-import { createPart, listParts } from "@/lib/admin-data";
+import { createPartAsync, listPartsAsync } from "@/lib/admin-data";
 import { createId } from "@/lib/store";
 import type { I18nText, PartInput } from "@/types/catalog";
 
@@ -35,7 +35,7 @@ export async function GET() {
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json(listParts());
+  return NextResponse.json(await listPartsAsync());
 }
 
 export async function POST(request: Request) {
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
       ? [{ id: createId("img"), url: body.imageUrl, sortOrder: 0 }]
       : [];
 
-  const part = createPart({
+  const part = await createPartAsync({
     sku: body.sku,
     name: body.name || emptyI18n(),
     category: body.category,

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/auth";
-import { createCar, listCars } from "@/lib/admin-data";
+import { createCarAsync, listCarsAsync } from "@/lib/admin-data";
 import { createId } from "@/lib/store";
 import type { CarInput, I18nText } from "@/types/catalog";
 
@@ -13,7 +13,7 @@ export async function GET() {
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json(listCars());
+  return NextResponse.json(await listCarsAsync());
 }
 
 export async function POST(request: Request) {
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         ]
       : [];
 
-  const car = createCar({
+  const car = await createCarAsync({
     make: body.make,
     model: body.model,
     year: Number(body.year),

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/auth";
-import { deletePart, getPart, updatePart } from "@/lib/admin-data";
+import { deletePartAsync, getPartAsync, updatePartAsync } from "@/lib/admin-data";
 import { createId } from "@/lib/store";
 import type { PartInput } from "@/types/catalog";
 
@@ -34,7 +34,7 @@ export async function GET(_req: Request, ctx: Ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await ctx.params;
-  const part = getPart(id);
+  const part = await getPartAsync(id);
   if (!part) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(part);
 }
@@ -69,7 +69,7 @@ export async function PUT(request: Request, ctx: Ctx) {
   if (body.stockQty != null) patch.stockQty = Number(body.stockQty);
   if (body.featured != null) patch.featured = Boolean(body.featured);
 
-  const part = updatePart(id, patch);
+  const part = await updatePartAsync(id, patch);
   if (!part) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(part);
 }
@@ -80,7 +80,7 @@ export async function DELETE(_req: Request, ctx: Ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await ctx.params;
-  const ok = deletePart(id);
+  const ok = await deletePartAsync(id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json({ ok: true });
 }

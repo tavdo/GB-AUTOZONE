@@ -544,7 +544,6 @@ export type ImageCreateOrConnectWithoutCarInput = {
 
 export type ImageCreateManyCarInputEnvelope = {
   data: Prisma.ImageCreateManyCarInput | Prisma.ImageCreateManyCarInput[]
-  skipDuplicates?: boolean
 }
 
 export type ImageUpsertWithWhereUniqueWithoutCarInput = {
@@ -604,7 +603,6 @@ export type ImageCreateOrConnectWithoutPartInput = {
 
 export type ImageCreateManyPartInputEnvelope = {
   data: Prisma.ImageCreateManyPartInput | Prisma.ImageCreateManyPartInput[]
-  skipDuplicates?: boolean
 }
 
 export type ImageUpsertWithWhereUniqueWithoutPartInput = {
@@ -1451,7 +1449,6 @@ export type ImageCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * The data used to create many Images.
    */
   data: Prisma.ImageCreateManyInput | Prisma.ImageCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**
@@ -1470,7 +1467,6 @@ export type ImageCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * The data used to create many Images.
    */
   data: Prisma.ImageCreateManyInput | Prisma.ImageCreateManyInput[]
-  skipDuplicates?: boolean
   /**
    * Choose, which related nodes to fetch as well
    */

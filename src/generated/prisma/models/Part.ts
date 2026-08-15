@@ -27,14 +27,12 @@ export type AggregatePart = {
 }
 
 export type PartAvgAggregateOutputType = {
-  compatibleYears: number | null
-  price: runtime.Decimal | null
+  price: number | null
   stockQty: number | null
 }
 
 export type PartSumAggregateOutputType = {
-  compatibleYears: number[]
-  price: runtime.Decimal | null
+  price: number | null
   stockQty: number | null
 }
 
@@ -43,7 +41,7 @@ export type PartMinAggregateOutputType = {
   sku: string | null
   category: string | null
   oemNumber: string | null
-  price: runtime.Decimal | null
+  price: number | null
   currency: $Enums.Currency | null
   stockQty: number | null
   featured: boolean | null
@@ -56,7 +54,7 @@ export type PartMaxAggregateOutputType = {
   sku: string | null
   category: string | null
   oemNumber: string | null
-  price: runtime.Decimal | null
+  price: number | null
   currency: $Enums.Currency | null
   stockQty: number | null
   featured: boolean | null
@@ -85,13 +83,11 @@ export type PartCountAggregateOutputType = {
 
 
 export type PartAvgAggregateInputType = {
-  compatibleYears?: true
   price?: true
   stockQty?: true
 }
 
 export type PartSumAggregateInputType = {
-  compatibleYears?: true
   price?: true
   stockQty?: true
 }
@@ -232,11 +228,11 @@ export type PartGroupByOutputType = {
   sku: string
   name: runtime.JsonValue
   category: string
-  compatibleMakes: string[]
-  compatibleModels: string[]
-  compatibleYears: number[]
+  compatibleMakes: runtime.JsonValue
+  compatibleModels: runtime.JsonValue
+  compatibleYears: runtime.JsonValue
   oemNumber: string | null
-  price: runtime.Decimal
+  price: number
   currency: $Enums.Currency
   stockQty: number
   description: runtime.JsonValue
@@ -273,11 +269,11 @@ export type PartWhereInput = {
   sku?: Prisma.StringFilter<"Part"> | string
   name?: Prisma.JsonFilter<"Part">
   category?: Prisma.StringFilter<"Part"> | string
-  compatibleMakes?: Prisma.StringNullableListFilter<"Part">
-  compatibleModels?: Prisma.StringNullableListFilter<"Part">
-  compatibleYears?: Prisma.IntNullableListFilter<"Part">
+  compatibleMakes?: Prisma.JsonFilter<"Part">
+  compatibleModels?: Prisma.JsonFilter<"Part">
+  compatibleYears?: Prisma.JsonFilter<"Part">
   oemNumber?: Prisma.StringNullableFilter<"Part"> | string | null
-  price?: Prisma.DecimalFilter<"Part"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFilter<"Part"> | number
   currency?: Prisma.EnumCurrencyFilter<"Part"> | $Enums.Currency
   stockQty?: Prisma.IntFilter<"Part"> | number
   description?: Prisma.JsonFilter<"Part">
@@ -314,11 +310,11 @@ export type PartWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PartWhereInput | Prisma.PartWhereInput[]
   name?: Prisma.JsonFilter<"Part">
   category?: Prisma.StringFilter<"Part"> | string
-  compatibleMakes?: Prisma.StringNullableListFilter<"Part">
-  compatibleModels?: Prisma.StringNullableListFilter<"Part">
-  compatibleYears?: Prisma.IntNullableListFilter<"Part">
+  compatibleMakes?: Prisma.JsonFilter<"Part">
+  compatibleModels?: Prisma.JsonFilter<"Part">
+  compatibleYears?: Prisma.JsonFilter<"Part">
   oemNumber?: Prisma.StringNullableFilter<"Part"> | string | null
-  price?: Prisma.DecimalFilter<"Part"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFilter<"Part"> | number
   currency?: Prisma.EnumCurrencyFilter<"Part"> | $Enums.Currency
   stockQty?: Prisma.IntFilter<"Part"> | number
   description?: Prisma.JsonFilter<"Part">
@@ -359,11 +355,11 @@ export type PartScalarWhereWithAggregatesInput = {
   sku?: Prisma.StringWithAggregatesFilter<"Part"> | string
   name?: Prisma.JsonWithAggregatesFilter<"Part">
   category?: Prisma.StringWithAggregatesFilter<"Part"> | string
-  compatibleMakes?: Prisma.StringNullableListFilter<"Part">
-  compatibleModels?: Prisma.StringNullableListFilter<"Part">
-  compatibleYears?: Prisma.IntNullableListFilter<"Part">
+  compatibleMakes?: Prisma.JsonWithAggregatesFilter<"Part">
+  compatibleModels?: Prisma.JsonWithAggregatesFilter<"Part">
+  compatibleYears?: Prisma.JsonWithAggregatesFilter<"Part">
   oemNumber?: Prisma.StringNullableWithAggregatesFilter<"Part"> | string | null
-  price?: Prisma.DecimalWithAggregatesFilter<"Part"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatWithAggregatesFilter<"Part"> | number
   currency?: Prisma.EnumCurrencyWithAggregatesFilter<"Part"> | $Enums.Currency
   stockQty?: Prisma.IntWithAggregatesFilter<"Part"> | number
   description?: Prisma.JsonWithAggregatesFilter<"Part">
@@ -377,11 +373,11 @@ export type PartCreateInput = {
   sku: string
   name: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category: string
-  compatibleMakes?: Prisma.PartCreatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartCreatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartCreatecompatibleYearsInput | number[]
+  compatibleMakes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   stockQty?: number
   description: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -396,11 +392,11 @@ export type PartUncheckedCreateInput = {
   sku: string
   name: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category: string
-  compatibleMakes?: Prisma.PartCreatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartCreatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartCreatecompatibleYearsInput | number[]
+  compatibleMakes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   stockQty?: number
   description: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -415,11 +411,11 @@ export type PartUpdateInput = {
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  compatibleMakes?: Prisma.PartUpdatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartUpdatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartUpdatecompatibleYearsInput | number[]
+  compatibleMakes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   stockQty?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -434,11 +430,11 @@ export type PartUncheckedUpdateInput = {
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  compatibleMakes?: Prisma.PartUpdatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartUpdatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartUpdatecompatibleYearsInput | number[]
+  compatibleMakes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   stockQty?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -453,11 +449,11 @@ export type PartCreateManyInput = {
   sku: string
   name: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category: string
-  compatibleMakes?: Prisma.PartCreatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartCreatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartCreatecompatibleYearsInput | number[]
+  compatibleMakes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   stockQty?: number
   description: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -471,11 +467,11 @@ export type PartUpdateManyMutationInput = {
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  compatibleMakes?: Prisma.PartUpdatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartUpdatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartUpdatecompatibleYearsInput | number[]
+  compatibleMakes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   stockQty?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -489,33 +485,17 @@ export type PartUncheckedUpdateManyInput = {
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  compatibleMakes?: Prisma.PartUpdatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartUpdatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartUpdatecompatibleYearsInput | number[]
+  compatibleMakes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   stockQty?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
-}
-
-export type IntNullableListFilter<$PrismaModel = never> = {
-  equals?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
-  has?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
-  hasEvery?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
-  hasSome?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
 }
 
 export type PartCountOrderByAggregateInput = {
@@ -537,7 +517,6 @@ export type PartCountOrderByAggregateInput = {
 }
 
 export type PartAvgOrderByAggregateInput = {
-  compatibleYears?: Prisma.SortOrder
   price?: Prisma.SortOrder
   stockQty?: Prisma.SortOrder
 }
@@ -569,7 +548,6 @@ export type PartMinOrderByAggregateInput = {
 }
 
 export type PartSumOrderByAggregateInput = {
-  compatibleYears?: Prisma.SortOrder
   price?: Prisma.SortOrder
   stockQty?: Prisma.SortOrder
 }
@@ -577,33 +555,6 @@ export type PartSumOrderByAggregateInput = {
 export type PartNullableScalarRelationFilter = {
   is?: Prisma.PartWhereInput | null
   isNot?: Prisma.PartWhereInput | null
-}
-
-export type PartCreatecompatibleMakesInput = {
-  set: string[]
-}
-
-export type PartCreatecompatibleModelsInput = {
-  set: string[]
-}
-
-export type PartCreatecompatibleYearsInput = {
-  set: number[]
-}
-
-export type PartUpdatecompatibleMakesInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
-export type PartUpdatecompatibleModelsInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
-export type PartUpdatecompatibleYearsInput = {
-  set?: number[]
-  push?: number | number[]
 }
 
 export type PartCreateNestedOneWithoutImagesInput = {
@@ -627,11 +578,11 @@ export type PartCreateWithoutImagesInput = {
   sku: string
   name: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category: string
-  compatibleMakes?: Prisma.PartCreatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartCreatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartCreatecompatibleYearsInput | number[]
+  compatibleMakes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   stockQty?: number
   description: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -645,11 +596,11 @@ export type PartUncheckedCreateWithoutImagesInput = {
   sku: string
   name: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category: string
-  compatibleMakes?: Prisma.PartCreatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartCreatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartCreatecompatibleYearsInput | number[]
+  compatibleMakes: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: string | null
-  price: runtime.Decimal | runtime.DecimalJsLike | number | string
+  price: number
   currency?: $Enums.Currency
   stockQty?: number
   description: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -679,11 +630,11 @@ export type PartUpdateWithoutImagesInput = {
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  compatibleMakes?: Prisma.PartUpdatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartUpdatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartUpdatecompatibleYearsInput | number[]
+  compatibleMakes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   stockQty?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -697,11 +648,11 @@ export type PartUncheckedUpdateWithoutImagesInput = {
   sku?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   category?: Prisma.StringFieldUpdateOperationsInput | string
-  compatibleMakes?: Prisma.PartUpdatecompatibleMakesInput | string[]
-  compatibleModels?: Prisma.PartUpdatecompatibleModelsInput | string[]
-  compatibleYears?: Prisma.PartUpdatecompatibleYearsInput | number[]
+  compatibleMakes?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleModels?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  compatibleYears?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   oemNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.EnumCurrencyFieldUpdateOperationsInput | $Enums.Currency
   stockQty?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -836,11 +787,20 @@ export type $PartPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
      */
     name: runtime.JsonValue
     category: string
-    compatibleMakes: string[]
-    compatibleModels: string[]
-    compatibleYears: number[]
+    /**
+     * string[]
+     */
+    compatibleMakes: runtime.JsonValue
+    /**
+     * string[]
+     */
+    compatibleModels: runtime.JsonValue
+    /**
+     * number[]
+     */
+    compatibleYears: runtime.JsonValue
     oemNumber: string | null
-    price: runtime.Decimal
+    price: number
     currency: $Enums.Currency
     stockQty: number
     /**
@@ -1278,11 +1238,11 @@ export interface PartFieldRefs {
   readonly sku: Prisma.FieldRef<"Part", 'String'>
   readonly name: Prisma.FieldRef<"Part", 'Json'>
   readonly category: Prisma.FieldRef<"Part", 'String'>
-  readonly compatibleMakes: Prisma.FieldRef<"Part", 'String[]'>
-  readonly compatibleModels: Prisma.FieldRef<"Part", 'String[]'>
-  readonly compatibleYears: Prisma.FieldRef<"Part", 'Int[]'>
+  readonly compatibleMakes: Prisma.FieldRef<"Part", 'Json'>
+  readonly compatibleModels: Prisma.FieldRef<"Part", 'Json'>
+  readonly compatibleYears: Prisma.FieldRef<"Part", 'Json'>
   readonly oemNumber: Prisma.FieldRef<"Part", 'String'>
-  readonly price: Prisma.FieldRef<"Part", 'Decimal'>
+  readonly price: Prisma.FieldRef<"Part", 'Float'>
   readonly currency: Prisma.FieldRef<"Part", 'Currency'>
   readonly stockQty: Prisma.FieldRef<"Part", 'Int'>
   readonly description: Prisma.FieldRef<"Part", 'Json'>
@@ -1523,7 +1483,6 @@ export type PartCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * The data used to create many Parts.
    */
   data: Prisma.PartCreateManyInput | Prisma.PartCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**
@@ -1542,7 +1501,6 @@ export type PartCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * The data used to create many Parts.
    */
   data: Prisma.PartCreateManyInput | Prisma.PartCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**

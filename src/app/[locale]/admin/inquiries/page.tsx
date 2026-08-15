@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { InquiriesTable } from "@/components/admin/inquiries-table";
-import { listInquiries } from "@/lib/admin-data";
+import { listInquiriesAsync } from "@/lib/admin-data";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -12,7 +12,7 @@ export default async function AdminInquiriesPage({ params }: Props) {
     redirect(`/${locale}/admin/login`);
   }
 
-  const inquiries = listInquiries();
+  const inquiries = await listInquiriesAsync();
 
   return (
     <div>

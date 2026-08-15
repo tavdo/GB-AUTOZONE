@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/auth";
-import { deleteCar, getCar, updateCar } from "@/lib/admin-data";
+import { deleteCarAsync, getCarAsync, updateCarAsync } from "@/lib/admin-data";
 import { createId } from "@/lib/store";
 import type { CarInput } from "@/types/catalog";
 
@@ -12,7 +12,7 @@ export async function GET(_req: Request, ctx: Ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await ctx.params;
-  const car = getCar(id);
+  const car = await getCarAsync(id);
   if (!car) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(car);
 }
@@ -42,7 +42,7 @@ export async function PUT(request: Request, ctx: Ctx) {
   if (body.mileage != null) patch.mileage = Number(body.mileage);
   if (body.featured != null) patch.featured = Boolean(body.featured);
 
-  const car = updateCar(id, patch);
+  const car = await updateCarAsync(id, patch);
   if (!car) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(car);
 }
@@ -53,7 +53,7 @@ export async function DELETE(_req: Request, ctx: Ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await ctx.params;
-  const ok = deleteCar(id);
+  const ok = await deleteCarAsync(id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json({ ok: true });
 }

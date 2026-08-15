@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { getDashboardStats } from "@/lib/admin-data";
+import { getDashboardStatsAsync } from "@/lib/admin-data";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -12,7 +12,7 @@ export default async function AdminDashboardPage({ params }: Props) {
     redirect(`/${locale}/admin/login`);
   }
 
-  const stats = getDashboardStats();
+  const stats = await getDashboardStatsAsync();
 
   const cards = [
     { label: "Cars", value: stats.cars, href: `/${locale}/admin/cars`, hint: `${stats.carsAvailable} available` },

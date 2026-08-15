@@ -1,4 +1,4 @@
-import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { PrismaClient } from "@/generated/prisma/client";
 
 const globalForPrisma = globalThis as unknown as {
@@ -6,19 +6,35 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 function createPrismaClient() {
-  const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) {
-    throw new Error("DATABASE_URL is not set");
-  }
+  const url =
+    process.env.TURSO_DATABASE_URL ||
+    process.env.DATABASE_URL ||
+    "file:./prisma/dev.db";
+  const authToken = process.env.TURSO_AUTH_TOKEN;
 
-  const adapter = new PrismaPg({ connectionString });
+  // Remote Turso needs token; local sqlite file does not
+  const adapter = new PrismaLibSql(
+    url.startsWith("libsql://") || url.startsWith("https://")
+      ? { url, authToken }
+      : { url },
+  );
+
   return new PrismaClient({ adapter });
 }
 
-/** Use only when USE_MOCK_DATA is not "true" and DATABASE_URL is configured. */
-export const prisma =
+export function isMockDataEnabled() {
+  if (process.env.USE_MOCK_DATA === "true") return true;
+  if (process.env.USE_MOCK_DATA === "false") return false;
+  // Auto: use DB when Turso URL is set with a token
+  return !(
+    process.env.TURSO_DATABASE_URL &&
+    process.env.TURSO_AUTH_TOKEN
+  );
+}
+
+export const prisma: PrismaClient =
   globalForPrisma.prisma ??
-  (process.env.USE_MOCK_DATA === "true" || !process.env.DATABASE_URL
+  (isMockDataEnabled()
     ? (null as unknown as PrismaClient)
     : createPrismaClient());
 
@@ -26,10 +42,10 @@ if (process.env.NODE_ENV !== "production" && prisma) {
   globalForPrisma.prisma = prisma;
 }
 
-export function isMockDataEnabled() {
-  return (
-    process.env.USE_MOCK_DATA === "true" ||
-    !process.env.DATABASE_URL ||
-    process.env.DATABASE_URL.includes("localhost:51213")
-  );
+/** Always returns a client (for seed / scripts). */
+export function getPrisma() {
+  if (globalForPrisma.prisma) return globalForPrisma.prisma;
+  const client = createPrismaClient();
+  globalForPrisma.prisma = client;
+  return client;
 }

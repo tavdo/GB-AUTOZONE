@@ -1,18 +1,26 @@
 /**
- * Seed script — run after DATABASE_URL points to a real Postgres instance:
- *   npx prisma db seed
+ * Seed Turso / local SQLite:
+ *   npx tsx prisma/seed.ts
  *
- * Until then the app uses mock data from src/lib/data/* (USE_MOCK_DATA=true).
+ * Requires TURSO_DATABASE_URL + TURSO_AUTH_TOKEN (or local DATABASE_URL=file:./prisma/dev.db)
  */
 import "dotenv/config";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { cars } from "../src/lib/data/cars";
 import { parts } from "../src/lib/data/parts";
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL!,
-});
+const url =
+  process.env.TURSO_DATABASE_URL ||
+  process.env.DATABASE_URL ||
+  "file:./prisma/dev.db";
+const authToken = process.env.TURSO_AUTH_TOKEN;
+
+const adapter = new PrismaLibSql(
+  url.startsWith("libsql://") || url.startsWith("https://")
+    ? { url, authToken }
+    : { url },
+);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
@@ -49,6 +57,7 @@ async function main() {
         price: car.price,
         status: car.status,
         featured: car.featured ?? false,
+        description: car.description,
       },
     });
   }
@@ -84,11 +93,16 @@ async function main() {
         price: part.price,
         stockQty: part.stockQty,
         featured: part.featured ?? false,
+        name: part.name,
+        description: part.description,
+        compatibleMakes: part.compatibleMakes,
+        compatibleModels: part.compatibleModels,
+        compatibleYears: part.compatibleYears,
       },
     });
   }
 
-  console.log(`Seeded ${cars.length} cars and ${parts.length} parts`);
+  console.log(`Seeded ${cars.length} cars and ${parts.length} parts → ${url}`);
 }
 
 main()

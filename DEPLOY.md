@@ -1,21 +1,32 @@
-# Deploy on Vercel
+# Deploy + Turso
 
-1. Import the GitHub repo in [Vercel](https://vercel.com/new)
-2. Framework: **Next.js** (auto-detected)
-3. Add Environment Variables:
+## Vercel env vars
 
 | Name | Value |
 |------|--------|
-| `USE_MOCK_DATA` | `true` |
-| `AUTH_SECRET` | long random string ([generate](https://generate-secret.vercel.app/32)) |
-| `AUTH_URL` | `https://YOUR-PROJECT.vercel.app` |
-| `ADMIN_EMAIL` | your admin email |
-| `ADMIN_PASSWORD` | strong password |
-| `NEXT_PUBLIC_SITE_URL` | `https://YOUR-PROJECT.vercel.app` |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER` | optional |
-| `NEXT_PUBLIC_TELEGRAM_USERNAME` | optional |
-| `NEXT_PUBLIC_PHONE` | optional |
+| `USE_MOCK_DATA` | `false` (once Turso works) |
+| `TURSO_DATABASE_URL` | `libsql://gb-autozone-tavdo.aws-ap-northeast-1.turso.io` |
+| `TURSO_AUTH_TOKEN` | from Turso dashboard |
+| `DATABASE_URL` | `file:./prisma/dev.db` (migrate only) |
+| `AUTH_SECRET` | long random string |
+| `AUTH_URL` | `https://YOUR.vercel.app` |
+| `NEXT_PUBLIC_SITE_URL` | same as AUTH_URL |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | admin login |
 
-4. Deploy
+## Apply schema to Turso
 
-**Note:** With `USE_MOCK_DATA=true`, catalog edits in admin work in-memory on the server instance (they may reset on cold starts). For permanent data, connect Postgres later (`DATABASE_URL` + `USE_MOCK_DATA=false`).
+1. Create token in [Turso](https://turso.tech) dashboard for `gb-autozone`
+2. Put URL + token in `.env`
+3. Locally:
+
+```bash
+npx prisma db push
+# or: generate SQL via local migrate, then:
+# turso db shell gb-autozone < prisma/migrations/.../migration.sql
+
+npx tsx prisma/seed.ts
+```
+
+4. Set Vercel env → Redeploy
+
+Until `TURSO_AUTH_TOKEN` is set, the app keeps using mock JSON data (`USE_MOCK_DATA=true`).

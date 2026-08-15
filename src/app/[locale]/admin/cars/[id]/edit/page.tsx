@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { CarForm } from "@/components/admin/car-form";
-import { getCar } from "@/lib/admin-data";
+import { getCarAsync } from "@/lib/admin-data";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
 
@@ -12,7 +12,7 @@ export default async function AdminEditCarPage({ params }: Props) {
     redirect(`/${locale}/admin/login`);
   }
 
-  const car = getCar(id);
+  const car = await getCarAsync(id);
   if (!car) notFound();
 
   return (

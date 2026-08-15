@@ -315,9 +315,6 @@ export type $SiteContentPayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     key: string
-    /**
-     * i18n JSON content block
-     */
     value: runtime.JsonValue
     updatedAt: Date
   }, ExtArgs["result"]["siteContent"]>
@@ -957,7 +954,6 @@ export type SiteContentCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many SiteContents.
    */
   data: Prisma.SiteContentCreateManyInput | Prisma.SiteContentCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**
@@ -976,7 +972,6 @@ export type SiteContentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many SiteContents.
    */
   data: Prisma.SiteContentCreateManyInput | Prisma.SiteContentCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**

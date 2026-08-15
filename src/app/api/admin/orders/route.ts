@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/auth";
-import { deleteOrder, listOrders, updateOrderStatus } from "@/lib/admin-data";
+import {
+  deleteOrderAsync,
+  listOrdersAsync,
+  updateOrderStatusAsync,
+} from "@/lib/admin-data";
 import type { OrderStatus } from "@/types/catalog";
 
 export async function GET() {
@@ -8,7 +12,7 @@ export async function GET() {
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json(listOrders());
+  return NextResponse.json(await listOrdersAsync());
 }
 
 export async function PATCH(request: Request) {
@@ -20,7 +24,7 @@ export async function PATCH(request: Request) {
   if (!body.id || !body.status) {
     return NextResponse.json({ error: "id and status required" }, { status: 400 });
   }
-  const order = updateOrderStatus(body.id, body.status);
+  const order = await updateOrderStatusAsync(body.id, body.status);
   if (!order) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(order);
 }
@@ -35,7 +39,7 @@ export async function DELETE(request: Request) {
   if (!id) {
     return NextResponse.json({ error: "id required" }, { status: 400 });
   }
-  const ok = deleteOrder(id);
+  const ok = await deleteOrderAsync(id);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json({ ok: true });
 }

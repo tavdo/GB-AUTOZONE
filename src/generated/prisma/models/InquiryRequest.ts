@@ -483,9 +483,6 @@ export type $InquiryRequestPayload<ExtArgs extends runtime.Types.Extensions.Inte
     contactEmail: string
     contactPhone: string | null
     message: string
-    /**
-     * Optional structured request details (make/model/VIN/lot etc.)
-     */
     details: runtime.JsonValue | null
     status: $Enums.InquiryStatus
     createdAt: Date
@@ -1133,7 +1130,6 @@ export type InquiryRequestCreateManyArgs<ExtArgs extends runtime.Types.Extension
    * The data used to create many InquiryRequests.
    */
   data: Prisma.InquiryRequestCreateManyInput | Prisma.InquiryRequestCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**
@@ -1152,7 +1148,6 @@ export type InquiryRequestCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * The data used to create many InquiryRequests.
    */
   data: Prisma.InquiryRequestCreateManyInput | Prisma.InquiryRequestCreateManyInput[]
-  skipDuplicates?: boolean
 }
 
 /**

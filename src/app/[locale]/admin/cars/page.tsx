@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { DeleteButton } from "@/components/admin/delete-button";
 import { Button } from "@/components/ui/button";
-import { listCars } from "@/lib/admin-data";
+import { listCarsAsync } from "@/lib/admin-data";
 import { formatPrice } from "@/lib/utils";
 import type { Locale } from "@/types/catalog";
 
@@ -16,7 +16,7 @@ export default async function AdminCarsPage({ params }: Props) {
     redirect(`/${locale}/admin/login`);
   }
 
-  const cars = listCars();
+  const cars = await listCarsAsync();
 
   return (
     <div>

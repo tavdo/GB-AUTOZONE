@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { PartForm } from "@/components/admin/part-form";
-import { getPart } from "@/lib/admin-data";
+import { getPartAsync } from "@/lib/admin-data";
 
 type Props = { params: Promise<{ locale: string; id: string }> };
 
@@ -12,7 +12,7 @@ export default async function AdminEditPartPage({ params }: Props) {
     redirect(`/${locale}/admin/login`);
   }
 
-  const part = getPart(id);
+  const part = await getPartAsync(id);
   if (!part) notFound();
 
   return (
