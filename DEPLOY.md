@@ -1,32 +1,29 @@
 # Deploy + Turso
 
-## Vercel env vars
+## Turso is live
 
-| Name | Value |
-|------|--------|
-| `USE_MOCK_DATA` | `false` (once Turso works) |
-| `TURSO_DATABASE_URL` | `libsql://gb-autozone-tavdo.aws-ap-northeast-1.turso.io` |
-| `TURSO_AUTH_TOKEN` | from Turso dashboard |
-| `DATABASE_URL` | `file:./prisma/dev.db` (migrate only) |
-| `AUTH_SECRET` | long random string |
-| `AUTH_URL` | `https://YOUR.vercel.app` |
-| `NEXT_PUBLIC_SITE_URL` | same as AUTH_URL |
-| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | admin login |
+Schema + seed applied to:
+`libsql://gb-autozone-tavdo.aws-ap-northeast-1.turso.io`
 
-## Apply schema to Turso
-
-1. Create token in [Turso](https://turso.tech) dashboard for `gb-autozone`
-2. Put URL + token in `.env`
-3. Locally:
-
+Re-apply locally if needed:
 ```bash
-npx prisma db push
-# or: generate SQL via local migrate, then:
-# turso db shell gb-autozone < prisma/migrations/.../migration.sql
-
+npx prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script -o prisma/turso-schema.sql
+npx tsx scripts/push-turso.ts
 npx tsx prisma/seed.ts
 ```
 
-4. Set Vercel env → Redeploy
+## Vercel env vars (required)
 
-Until `TURSO_AUTH_TOKEN` is set, the app keeps using mock JSON data (`USE_MOCK_DATA=true`).
+| Name | Value |
+|------|--------|
+| `USE_MOCK_DATA` | `false` |
+| `TURSO_DATABASE_URL` | `libsql://gb-autozone-tavdo.aws-ap-northeast-1.turso.io` |
+| `TURSO_AUTH_TOKEN` | your Turso token |
+| `AUTH_SECRET` | long random string |
+| `AUTH_URL` | `https://YOUR.vercel.app` |
+| `NEXT_PUBLIC_SITE_URL` | same |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | admin login |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | optional |
+| `NEXT_PUBLIC_PHONE` | optional |
+
+After saving env vars → **Redeploy**.
